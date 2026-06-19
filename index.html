@@ -239,8 +239,8 @@ input[type="text"], input[type="search"]{ cursor:text; }
   width: 100%;
   max-width: 40rem;
   display: flex;
-  align-items: stretch;       /* stretch замість center — кнопки тягнуться на всю висоту */
-  gap: 0;                     /* забираємо gap, щоб не було "зсуву" */
+  align-items: stretch;
+  gap: 0;
   padding: 6px;
   border-radius: var(--radius-xl);
   background: #fff;
@@ -266,24 +266,33 @@ input[type="text"], input[type="search"]{ cursor:text; }
   border: none;
   background: transparent;
 }
+/* ВИПРАВЛЕНО: Прибираємо фіолетовий прямокутник (outline) при фокусі */
+.search-box input:focus {
+  outline: none;
+}
 .search-box input::placeholder{color:var(--c-text-faint)}
 
-/* Кнопка пошуку: фіксована мінімальна ширина, не "зсувається" */
+/* Кнопка пошуку */
 .search-box .btn {
   padding: 0 1.5rem;
   font-size: 0.9rem;
   flex-shrink: 0;
-  border-radius: calc(var(--radius-xl) - 4px); /* відповідний до search-box радіус */
+  border-radius: calc(var(--radius-xl) - 4px);
   min-width: 110px;
   height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-/* На мобільних: ховаємо текст кнопки, лишаємо тільки іконку */
+/* На мобільних: показуємо тільки іконку лупи */
 @media (max-width: 520px) {
   .search-box .btn {
     min-width: 48px;
     padding: 0;
-    aspect-ratio: 1 / 1;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
   }
   .search-box .btn .btn-label{
@@ -291,6 +300,8 @@ input[type="text"], input[type="search"]{ cursor:text; }
   }
   .search-box .btn svg{
     margin:0;
+    width: 20px;
+    height: 20px;
   }
   .search-box input{
     font-size: 0.875rem;
@@ -303,7 +314,7 @@ input[type="text"], input[type="search"]{ cursor:text; }
 
 @media (max-width: 400px) {
   .search-box .search-icon{
-    display:none; /* зовсім прибираємо іконку в інпуті, якщо дуже вузько */
+    display:none;
   }
 }
 
@@ -376,7 +387,7 @@ input[type="text"], input[type="search"]{ cursor:text; }
 .filters-toggle:active{
   transform:translateY(0) scale(.97);
 }
-.filters-toggle[aria-expanded="false"] svg.chev{
+.filters-toggle[aria-expanded="false"] svg.filter-chevron{
   transform:rotate(-180deg);
 }
 
@@ -887,8 +898,8 @@ input[type="text"], input[type="search"]{ cursor:text; }
     search:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
     gauge:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>',
     calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
-    chevDown: '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 12 12 6-6"/><path d="m6 9 6 6 6-6"/></svg>',
-    chevUp:   '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>',
+    chevDown: '<svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+    chevUp:   '<svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>',
     chevLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>',
     chevRight:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>',
     x:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>',
@@ -909,8 +920,6 @@ input[type="text"], input[type="search"]{ cursor:text; }
     check:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
     menu:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="7" y2="7"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="17" y2="17"/></svg>',
     info:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>',
-    eyeHide:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a19.8 19.8 0 0 1 4.51-5.53"/><path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a19.86 19.86 0 0 1-3.17 4.19M1 1l22 22"/><path d="M14.12 14.12A3 3 0 1 1 9.88 9.88"/></svg>',
-    eyeShow:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
   };
   const icon = (name, cls = '') => `<span class="${cls}" aria-hidden="true">${ICONS[name] || ''}</span>`;
 
@@ -957,7 +966,7 @@ input[type="text"], input[type="search"]{ cursor:text; }
     favs: new Set(storage.get(CONFIG.LS_FAV_KEY, [])),
     selectedCar: null,
     mobileNavOpen: false,
-    filtersOpen: true,     // Новий стан: фільтри відкриті за замовчуванням
+    filtersOpen: true,
   };
 
   const saveFavs = () => storage.set(CONFIG.LS_FAV_KEY, [...state.favs]);
@@ -1562,7 +1571,7 @@ input[type="text"], input[type="search"]{ cursor:text; }
         state.price = CONFIG.PRICE_MAX;
         state.sort = 'featured';
         state.page = 1;
-        state.filtersOpen = true; // повертаємо фільтри у відкритий стан
+        state.filtersOpen = true;
         renderApp();
         break;
       }
@@ -1579,10 +1588,10 @@ input[type="text"], input[type="search"]{ cursor:text; }
         if (body) body.classList.toggle('collapsed', !state.filtersOpen);
         const label = btn.querySelector('.filters-toggle-label');
         if (label) label.textContent = state.filtersOpen ? 'Hide filters' : 'Show filters';
-        // Змінюємо іконку (перемальовуємо лише іконку)
-        const iconSpan = btn.querySelector('span[aria-hidden="true"]');
+        // ВИПРАВЛЕНО: Шукаємо тільки іконку з класом filter-chevron всередині кнопки
+        const iconSpan = btn.querySelector('.filter-chevron');
         if (iconSpan) {
-          iconSpan.outerHTML = state.filtersOpen ? icon('chevUp') : icon('chevDown');
+          iconSpan.outerHTML = state.filtersOpen ? ICONS.chevUp : ICONS.chevDown;
         }
         btn.setAttribute('aria-expanded', String(state.filtersOpen));
         break;
